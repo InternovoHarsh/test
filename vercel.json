@@ -2,13 +2,21 @@
   "version": 2,
   "routes": [
     {
-      "src": "/(.*)",
-      "dest": "/"
+      "src": "/getNewsInvApi",
+      "dest": "/api/getNewsInvApi.js"
+    },
+    {
+      "src": "/.*",
+      "dest": "/index.js"
     }
   ],
   "builds": [
     {
       "src": "/index.js",
+      "use": "@vercel/node"
+    },
+    {
+      "src": "/api/getNewsInvApi.js",
       "use": "@vercel/node"
     }
   ]
