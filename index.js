@@ -13,7 +13,7 @@ app.get("/",(req,res)=>{
 })
 
 
-app.get('https://demo-azure-tau.vercel.app/getNewsInvApi', async (req, res) => {
+app.get('/api/getNewsInvApi', async (req, res) => {
   try {
     // Specify language and category of news you want
     const options = {
