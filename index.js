@@ -8,9 +8,10 @@ const port = 3000;
 // Use CORS middleware to allow all origins
 app.use(cors());
 
-app.get("/", (req, res) => {
-  res.json({ message: "API is running" });
-});
+app.get("/",(req,res)=>{
+    res.json({message:"API is running"})
+})
+
 
 app.get('/api/getNewsInvApi', async (req, res) => {
   try {
@@ -23,14 +24,8 @@ app.get('/api/getNewsInvApi', async (req, res) => {
     // Use getNews for the first time; it will return the first 10 posts and a unique id
     const newsData = await inshorts.getNews(options);
 
-    // Attach a cache-busting parameter to the URL
-    const cacheBustingUrl = `/api/getNewsInvApi?cache=${new Date().getTime()}`;
-
     // Sending the news data as a JSON response
-    res.json({
-      newsData,
-      cacheBustingUrl
-    });
+    res.json(newsData);
   } catch (error) {
     console.error('Error fetching news:', error);
     // Sending an error response if something goes wrong
