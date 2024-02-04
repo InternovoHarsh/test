@@ -8,43 +8,28 @@ const port = 3000;
 // Use CORS middleware to allow all origins
 app.use(cors());
 
-let cachedNewsData = null;
+app.get("/",(req,res)=>{
+    res.json({message:"API is running"})
+})
 
-async function fetchNewsData() {
+
+app.get('/api/getNewsInvApi', async (req, res) => {
   try {
+    // Specify language and category of news you want
     const options = {
       language: 'en',
       category: 'business'
     };
 
+    // Use getNews for the first time; it will return the first 10 posts and a unique id
     const newsData = await inshorts.getNews(options);
-    cachedNewsData = newsData;
-    console.log('News data refreshed successfully');
+
+    // Sending the news data as a JSON response
+    res.json(newsData);
   } catch (error) {
     console.error('Error fetching news:', error);
-  }
-}
-
-// Fetch news data initially when the server starts
-fetchNewsData();
-
-// Set up a periodic refresh every 1 hour (adjust as needed)
-setInterval(fetchNewsData, 60 * 60 * 1000);
-
-app.get("/", (req, res) => {
-  res.json({ message: "API is running" });
-});
-
-app.get('/api/getNewsInvApi', (req, res) => {
-  try {
-    if (cachedNewsData) {
-      res.json(cachedNewsData);
-    } else {
-      res.status(500).json({ error: 'News data not available' });
-    }
-  } catch (error) {
-    console.error('Error sending news data:', error);
-    res.status(500).json({ error: 'Error sending news data' });
+    // Sending an error response if something goes wrong
+    res.status(500).json({ error: 'Error fetching news' });
   }
 });
 
